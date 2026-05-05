@@ -1,0 +1,428 @@
+/* ============================================================
+   AUTH PAGE – Sliding Panel (Anti-Gravity × Montserrat)
+   La clase maestra .right-panel-active en el contenedor padre
+   dispara TODAS las animaciones en cascada.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+/* ── Page wrapper ─────────────────────────────────────────── */
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  background: #0b0d17;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(255, 65, 108, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 50%, rgba(255, 75, 43,  0.06) 0%, transparent 60%);
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+}
+
+/* ── Main container ───────────────────────────────────────── */
+.auth-container {
+  position: relative;
+  width: 850px;
+  max-width: 95vw;
+  min-height: 520px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.55),
+    0 0 60px rgba(255, 65, 108, 0.08);
+  background: rgba(15, 17, 30, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ── Form containers (left = login, right = register) ───── */
+.auth-form-container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: 2;
+}
+
+.auth-form-container.sign-in {
+  left: 0;
+  transform: translateX(0);
+}
+
+.auth-form-container.sign-up {
+  left: 0;
+  transform: translateX(100%);
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Activado: Login se va, Register entra */
+.auth-container.right-panel-active .auth-form-container.sign-in {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.auth-container.right-panel-active .auth-form-container.sign-up {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+  animation: slideIn 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(100%); }
+  to   { opacity: 1; transform: translateX(100%); }
+}
+
+/* ── Inner form styling ───────────────────────────────────── */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.auth-form h1 {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+
+.auth-form .subtitle {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 28px;
+  font-weight: 400;
+}
+
+.auth-form .error-box {
+  width: 100%;
+  background: rgba(239, 68, 68, 0.1);
+  color: #fca5a5;
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* ── Input fields ─────────────────────────────────────────── */
+.auth-form .field-group {
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+.auth-form .field-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+.auth-form .field-row .field-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.auth-form .field-group label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 6px;
+  margin-left: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.auth-form .field-group .input-wrap {
+  position: relative;
+}
+
+.auth-form .field-group .input-wrap .field-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+}
+
+.auth-form .field-group input {
+  width: 100%;
+  padding: 13px 14px 13px 42px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+  box-sizing: border-box;
+}
+
+.auth-form .field-group input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.auth-form .field-group input:focus {
+  border-color: rgba(255, 65, 108, 0.5);
+  box-shadow: 0 0 20px rgba(255, 65, 108, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.auth-form .cedula-status {
+  font-size: 0.72rem;
+  color: rgba(255, 65, 108, 0.8);
+  margin-top: 6px;
+  margin-left: 2px;
+}
+
+/* ── Solid submit button ──────────────────────────────────── */
+.auth-form .submit-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: transform 0.2s, box-shadow 0.3s, opacity 0.3s;
+  box-shadow: 0 8px 30px rgba(255, 65, 108, 0.25);
+}
+
+.auth-form .submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(255, 65, 108, 0.35);
+}
+
+.auth-form .submit-btn:active {
+  transform: translateY(0);
+}
+
+.auth-form .submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Overlay (the sliding gradient panel) ─────────────────── */
+.auth-overlay-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 10;
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.auth-container.right-panel-active .auth-overlay-container {
+  transform: translateX(-100%);
+}
+
+.auth-overlay {
+  position: relative;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  left: -100%;
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.auth-container.right-panel-active .auth-overlay {
+  transform: translateX(50%);
+}
+
+/* ── Overlay panels (left & right text) ───────────────────── */
+.auth-overlay-panel {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 100%;
+  padding: 40px;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1),
+              opacity 0.5s ease;
+  box-sizing: border-box;
+}
+
+.auth-overlay-panel.overlay-left {
+  left: 0;
+  transform: translateX(-20%);
+  opacity: 0;
+}
+
+.auth-container.right-panel-active .auth-overlay-panel.overlay-left {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.auth-overlay-panel.overlay-right {
+  right: 0;
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.auth-container.right-panel-active .auth-overlay-panel.overlay-right {
+  transform: translateX(20%);
+  opacity: 0;
+}
+
+/* ── Overlay text ─────────────────────────────────────────── */
+.auth-overlay-panel h2 {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.auth-overlay-panel p {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 28px;
+  max-width: 260px;
+  font-weight: 300;
+}
+
+/* ── Ghost button ─────────────────────────────────────────── */
+.ghost-btn {
+  padding: 12px 42px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 30px;
+  background: transparent;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s, transform 0.2s;
+}
+
+.ghost-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+.ghost-btn:active {
+  transform: translateY(0);
+}
+
+/* ── Security footer ──────────────────────────────────────── */
+.auth-footer {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.2);
+  margin-top: 24px;
+  letter-spacing: 0.02em;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .auth-container {
+    width: 95vw;
+    min-height: auto;
+    border-radius: 20px;
+  }
+
+  /* Stack vertically on mobile */
+  .auth-form-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 480px;
+  }
+
+  .auth-form-container.sign-in {
+    display: flex;
+  }
+
+  .auth-form-container.sign-up {
+    display: none;
+    transform: none;
+    opacity: 1;
+  }
+
+  .auth-container.right-panel-active .auth-form-container.sign-in {
+    display: none;
+    transform: none;
+  }
+
+  .auth-container.right-panel-active .auth-form-container.sign-up {
+    display: flex;
+    transform: none;
+    animation: none;
+  }
+
+  .auth-overlay-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    left: 0;
+    transform: none !important;
+  }
+
+  .auth-overlay {
+    width: 100%;
+    left: 0;
+    transform: none !important;
+  }
+
+  .auth-overlay-panel {
+    position: relative;
+    width: 100%;
+    padding: 30px 20px;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .auth-overlay-panel.overlay-left {
+    display: none;
+  }
+
+  .auth-container.right-panel-active .auth-overlay-panel.overlay-left {
+    display: flex;
+  }
+
+  .auth-container.right-panel-active .auth-overlay-panel.overlay-right {
+    display: none;
+    opacity: 1 !important;
+  }
+
+  .auth-overlay-panel.overlay-right {
+    display: flex;
+  }
+
+  .auth-form {
+    padding: 30px 24px;
+  }
+}

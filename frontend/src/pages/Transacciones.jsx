@@ -81,96 +81,108 @@ function Transacciones() {
 
   return (
     <MainLayout>
-      <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-        <h2>
-          <ArrowRightLeft size={24} style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }}/> 
-          {user?.role === 'admin' ? 'Todas las Transacciones' : 'Historial de Transacciones'}
-          {user?.role === 'admin' && (
-            <span style={{ fontSize: '0.8rem', color: '#fff', background: '#ef4444', padding: '4px 8px', borderRadius: '4px', marginLeft: '12px', verticalAlign: 'middle' }}>Modo Admin</span>
-          )}
-        </h2>
+      <div className="page-header animate-fade-in" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+        <div>
+          <h1 style={{ fontSize: '2rem', fontWeight: '700', letterSpacing: '-0.02em' }}>
+            {user?.role === 'admin' ? 'Movimientos Globales' : 'Tus Movimientos'}
+          </h1>
+          <p style={{ color: 'var(--text-muted)', marginTop: '4px' }}>
+            {user?.role === 'admin' ? 'Auditoría en tiempo real de transacciones' : 'Gestiona tus fondos y transferencias de forma segura'}
+          </p>
+        </div>
         {user?.role !== 'admin' && (
           <button 
             onClick={() => setShowForm(!showForm)} 
-            className="login-btn" 
-            style={{ width: 'auto', display: 'flex', alignItems: 'center', gap: '8px', marginTop: 0 }}
+            className="primary-btn"
           >
-            Nueva Operación
+            <ArrowRightLeft size={18} /> Nueva Operación
           </button>
         )}
       </div>
 
       {showForm && (
-        <div style={{ background: 'var(--bg-dark)', padding: '24px', borderRadius: '12px', marginBottom: '24px', border: '1px solid var(--border-color)' }}>
-          <h3 style={{ marginBottom: '16px' }}>Realizar Operación</h3>
-          <form onSubmit={handleTransaccion} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', alignItems: 'end' }}>
+        <div className="glass-card animate-fade-in" style={{ marginBottom: '32px', border: '1px solid var(--accent)' }}>
+          <h3 style={{ marginBottom: '16px', fontSize: '1.25rem' }}>Realizar Operación</h3>
+          <form onSubmit={handleTransaccion} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', alignItems: 'end' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px' }}>Tipo de Operación</label>
-              <select value={tipoTransaccion} onChange={e => setTipoTransaccion(e.target.value)} style={{ width: '100%', padding: '12px', background: 'var(--bg-card)', color: 'white', border: '1px solid var(--border-color)', borderRadius: '8px' }}>
+              <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: '500' }}>Tipo de Operación</label>
+              <select value={tipoTransaccion} onChange={e => setTipoTransaccion(e.target.value)} className="input-glass" style={{ width: '100%' }}>
                 <option value="Transferencia">Transferencia a terceros</option>
                 <option value="Retiro">Retiro</option>
                 <option value="Deposito">Depósito</option>
               </select>
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px' }}>Cuenta Origen</label>
-              <select value={cuentaOrigen} onChange={e => setCuentaOrigen(e.target.value)} style={{ width: '100%', padding: '12px', background: 'var(--bg-card)', color: 'white', border: '1px solid var(--border-color)', borderRadius: '8px' }} required>
+              <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: '500' }}>Cuenta Origen</label>
+              <select value={cuentaOrigen} onChange={e => setCuentaOrigen(e.target.value)} className="input-glass" style={{ width: '100%' }} required>
                 <option value="">Selecciona tu cuenta</option>
-                {misCuentas.filter(c => c.estado === 'Activa').map(c => <option key={c.id} value={c.id}>{c.numero_cuenta} (Saldo: ${parseFloat(c.saldo).toFixed(2)} {c.moneda})</option>)}
+                {misCuentas.filter(c => c.estado === 'Activa').map(c => <option key={c.id} value={c.id}>{c.numero_cuenta} (${parseFloat(c.saldo).toFixed(2)} {c.moneda})</option>)}
               </select>
             </div>
             {tipoTransaccion === 'Transferencia' && (
               <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px' }}>ID Cuenta Destino</label>
-                <input type="number" value={cuentaDestino} onChange={e => setCuentaDestino(e.target.value)} placeholder="Ej: 1" style={{ width: '100%', padding: '12px', background: 'var(--bg-card)', color: 'white', border: '1px solid var(--border-color)', borderRadius: '8px' }} required />
+                <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: '500' }}>ID Cuenta Destino</label>
+                <input type="number" value={cuentaDestino} onChange={e => setCuentaDestino(e.target.value)} placeholder="Ej: 1" className="input-glass" style={{ width: '100%' }} required />
               </div>
             )}
             <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px' }}>Monto</label>
-              <input type="number" step="0.01" min="0.01" value={monto} onChange={e => setMonto(e.target.value)} placeholder="0.00" style={{ width: '100%', padding: '12px', background: 'var(--bg-card)', color: 'white', border: '1px solid var(--border-color)', borderRadius: '8px' }} required />
+              <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: '500' }}>Monto</label>
+              <input type="number" step="0.01" min="0.01" value={monto} onChange={e => setMonto(e.target.value)} placeholder="0.00" className="input-glass" style={{ width: '100%' }} required />
             </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px' }}>Descripción (opcional)</label>
-              <input type="text" value={descripcion} onChange={e => setDescripcion(e.target.value)} placeholder="Concepto del pago" maxLength={255} style={{ width: '100%', padding: '12px', background: 'var(--bg-card)', color: 'white', border: '1px solid var(--border-color)', borderRadius: '8px' }} />
+            <div style={{ gridColumn: 'span 2' }}>
+              <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: '500' }}>Descripción (opcional)</label>
+              <input type="text" value={descripcion} onChange={e => setDescripcion(e.target.value)} placeholder="Concepto del pago" maxLength={255} className="input-glass" style={{ width: '100%' }} />
             </div>
-            <button type="submit" className="login-btn" style={{ marginTop: 0 }} disabled={procesando}>
-              {procesando ? 'Procesando...' : 'Procesar'}
-            </button>
+            <div style={{ gridColumn: 'span 2', display: 'flex', justifyContent: 'flex-end' }}>
+              <button type="submit" className="primary-btn" disabled={procesando} style={{ padding: '12px 40px' }}>
+                {procesando ? 'Procesando...' : 'Confirmar Operación'}
+              </button>
+            </div>
           </form>
         </div>
       )}
 
       {loading ? (
-        <p>Cargando información desde MySQL...</p>
+        <div style={{ textAlign: 'center', padding: '40px' }}>
+          <div className="dot" style={{ width: '12px', height: '12px', background: 'var(--accent)', margin: '0 auto 16px' }}></div>
+          <p>Obteniendo historial de transacciones...</p>
+        </div>
       ) : transacciones.length === 0 ? (
-        <div style={{ padding: '40px', textAlign: 'center', background: 'var(--bg-dark)', borderRadius: '12px', border: '1px dashed var(--border-color)' }}>
-          <p>No hay transacciones registradas.</p>
+        <div className="glass-card" style={{ padding: '60px', textAlign: 'center', borderStyle: 'dashed' }}>
+          <ArrowRightLeft size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px', opacity: 0.5 }} />
+          <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)' }}>Aún no hay transacciones registradas.</p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gap: '12px' }}>
-          {transacciones.map(t => (
-            <div key={t.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-dark)', padding: '16px', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                  <strong>{t.tipo_transaccion.replace('_', ' ')}</strong>
-                  <span style={{ fontSize: '0.75rem', padding: '2px 6px', borderRadius: '4px', background: estadoColor(t.estado), color: '#fff' }}>
-                    {t.estado}
-                  </span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {transacciones.map((t, index) => (
+            <div key={t.id} className="glass-card animate-fade-in" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 24px', animationDelay: `${index * 0.05}s` }}>
+              <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                <div className="glass-panel" style={{ padding: '12px', borderRadius: '16px', boxShadow: 'none', background: 'rgba(255,255,255,0.05)' }}>
+                  <ArrowRightLeft size={24} color={t.tipo_transaccion === 'Deposito' || t.tipo_transaccion === 'Prestamo_Desembolso' ? '#10b981' : 'var(--accent)'} />
                 </div>
-                <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-                  {t.cuenta?.numero_cuenta || `Cuenta #${t.cuenta_id}`}
-                  {t.cuenta_destino && ` → ${t.cuenta_destino.numero_cuenta}`}
-                </div>
-                {t.descripcion && (
-                  <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', fontStyle: 'italic', marginTop: '2px' }}>{t.descripcion}</div>
-                )}
-                <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '4px', fontFamily: 'monospace' }}>
-                  Ref: {t.referencia?.substring(0, 8)}... | {new Date(t.fecha).toLocaleString()}
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
+                    <span style={{ fontWeight: '700', fontSize: '1.1rem' }}>{t.tipo_transaccion.replace(/_/g, ' ')}</span>
+                    <span style={{ fontSize: '0.7rem', padding: '4px 10px', borderRadius: '20px', background: `${estadoColor(t.estado)}20`, color: estadoColor(t.estado), border: `1px solid ${estadoColor(t.estado)}40` }}>
+                      {t.estado}
+                    </span>
+                  </div>
+                  <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                    <span style={{ fontFamily: 'monospace' }}>{t.cuenta?.numero_cuenta || `Cuenta #${t.cuenta_id}`}</span>
+                    {t.cuenta_destino && <span style={{ margin: '0 8px' }}>→</span>}
+                    {t.cuenta_destino && <span style={{ fontFamily: 'monospace' }}>{t.cuenta_destino.numero_cuenta}</span>}
+                  </div>
+                  {t.descripcion && (
+                    <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', fontStyle: 'italic', marginTop: '4px' }}>"{t.descripcion}"</div>
+                  )}
                 </div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: t.tipo_transaccion === 'Deposito' || t.tipo_transaccion === 'Prestamo_Desembolso' ? '#10b981' : '#ef4444' }}>
-                  {t.tipo_transaccion === 'Deposito' || t.tipo_transaccion === 'Prestamo_Desembolso' ? '+' : '-'}${parseFloat(t.monto).toFixed(2)}
+                <div style={{ fontSize: '1.5rem', fontWeight: '700', color: t.tipo_transaccion === 'Deposito' || t.tipo_transaccion === 'Prestamo_Desembolso' ? '#10b981' : '#f43f5e', letterSpacing: '-0.02em' }}>
+                  {t.tipo_transaccion === 'Deposito' || t.tipo_transaccion === 'Prestamo_Desembolso' ? '+' : '-'}${parseFloat(t.monto).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                </div>
+                <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '4px' }}>
+                  {new Date(t.fecha).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })} • Ref: {t.referencia?.substring(0, 8)}
                 </div>
               </div>
             </div>
@@ -178,6 +190,7 @@ function Transacciones() {
         </div>
       )}
     </MainLayout>
+
   );
 }
 

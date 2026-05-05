@@ -1,14 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import Login from '../pages/Login';
+import AuthPage from '../pages/AuthPage';
 import Dashboard from '../pages/Dashboard';
 import Usuarios from '../pages/Usuarios';
 import Transacciones from '../pages/Transacciones';
 import Prestamos from '../pages/Prestamos';
 import Pagos from '../pages/Pagos';
-
-import Register from '../pages/Register';
 
 // Rutas Privadas
 const PrivateRoute = ({ children, requiredRole }) => {
@@ -30,8 +28,9 @@ function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-        <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+        {/* Auth unificado: Login + Registro en un solo Sliding Panel */}
+        <Route path="/login" element={<PublicRoute><AuthPage /></PublicRoute>} />
+        <Route path="/register" element={<PublicRoute><AuthPage /></PublicRoute>} />
         
         {/* Rutas Privadas */}
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />

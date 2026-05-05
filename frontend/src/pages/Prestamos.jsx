@@ -71,74 +71,107 @@ function Prestamos() {
 
   return (
     <MainLayout>
-      <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-        <h2>
-          <Landmark size={24} style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }}/> 
-          {user?.role === 'admin' ? 'Administración de Préstamos' : 'Mis Préstamos'}
-          {user?.role === 'admin' && (
-            <span style={{ fontSize: '0.8rem', color: '#fff', background: '#ef4444', padding: '4px 8px', borderRadius: '4px', marginLeft: '12px', verticalAlign: 'middle' }}>Modo Admin</span>
-          )}
-        </h2>
+      <div className="page-header animate-fade-in" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+        <div>
+          <h1 style={{ fontSize: '2rem', fontWeight: '700', letterSpacing: '-0.02em' }}>
+            {user?.role === 'admin' ? 'Gestión de Créditos' : 'Tus Préstamos'}
+          </h1>
+          <p style={{ color: 'var(--text-muted)', marginTop: '4px' }}>
+            {user?.role === 'admin' ? 'Revisión y aprobación de solicitudes de financiamiento' : 'Consulta el estado de tus créditos y solicita financiamiento'}
+          </p>
+        </div>
         <button 
           onClick={() => setShowForm(!showForm)} 
-          className="login-btn" 
-          style={{ width: 'auto', display: 'flex', alignItems: 'center', gap: '8px', marginTop: 0 }}
+          className="primary-btn"
         >
+          {user?.role === 'admin' ? <Plus size={18} /> : <Landmark size={18} />}
           {user?.role === 'admin' ? 'Asignar Préstamo' : 'Solicitar Préstamo'}
         </button>
       </div>
 
       {showForm && (
-        <div style={{ background: 'var(--bg-dark)', padding: '24px', borderRadius: '12px', marginBottom: '24px', border: '1px solid var(--border-color)' }}>
-          <h3 style={{ marginBottom: '16px' }}>Nueva Solicitud</h3>
-          <form onSubmit={handlePrestamo} style={{ display: 'grid', gridTemplateColumns: user?.role === 'admin' ? '1fr 1fr 1fr auto' : '1fr 1fr auto', gap: '16px', alignItems: 'end' }}>
+        <div className="glass-card animate-fade-in" style={{ marginBottom: '32px', border: '1px solid var(--accent)' }}>
+          <h3 style={{ marginBottom: '16px', fontSize: '1.25rem' }}>Nueva Solicitud</h3>
+          <form onSubmit={handlePrestamo} style={{ display: 'grid', gridTemplateColumns: user?.role === 'admin' ? '1fr 1fr 1fr auto' : '1fr 1fr auto', gap: '20px', alignItems: 'end' }}>
             {user?.role === 'admin' && (
               <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px' }}>Usuario Destino</label>
-                <select value={selectedUserId} onChange={e => setSelectedUserId(e.target.value)} style={{ width: '100%', padding: '12px', background: 'var(--bg-card)', color: 'white', border: '1px solid var(--border-color)', borderRadius: '8px' }} required>
+                <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: '500' }}>Usuario Destino</label>
+                <select value={selectedUserId} onChange={e => setSelectedUserId(e.target.value)} className="input-glass" style={{ width: '100%' }} required>
                   <option value="">Seleccionar usuario</option>
                   {usuarios.map(u => <option key={u.id} value={u.id}>{u.nombre} {u.apellido}</option>)}
                 </select>
               </div>
             )}
             <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px' }}>Monto a Solicitar</label>
-              <input type="number" step="0.01" min="100" value={monto} onChange={e => setMonto(e.target.value)} placeholder="0.00" style={{ width: '100%', padding: '12px', background: 'var(--bg-card)', color: 'white', border: '1px solid var(--border-color)', borderRadius: '8px' }} required />
+              <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: '500' }}>Monto a Solicitar</label>
+              <input type="number" step="0.01" min="100" value={monto} onChange={e => setMonto(e.target.value)} placeholder="0.00" className="input-glass" style={{ width: '100%' }} required />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px' }}>Tasa de Interés (%)</label>
-              <input type="number" step="0.1" value={interes} onChange={e => setInteres(e.target.value)} style={{ width: '100%', padding: '12px', background: 'var(--bg-card)', color: 'white', border: '1px solid var(--border-color)', borderRadius: '8px' }} required />
+              <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: '500' }}>Tasa de Interés (%)</label>
+              <input type="number" step="0.1" value={interes} onChange={e => setInteres(e.target.value)} className="input-glass" style={{ width: '100%' }} required />
             </div>
-            <button type="submit" className="login-btn" style={{ marginTop: 0 }}>Enviar Solicitud</button>
+            <button type="submit" className="primary-btn">Enviar Solicitud</button>
           </form>
         </div>
       )}
 
       {loading ? (
-        <p>Cargando información desde MySQL...</p>
+        <div style={{ textAlign: 'center', padding: '40px' }}>
+          <div className="dot" style={{ width: '12px', height: '12px', background: 'var(--accent)', margin: '0 auto 16px' }}></div>
+          <p>Consultando registros de crédito...</p>
+        </div>
       ) : prestamos.length === 0 ? (
-        <div style={{ padding: '40px', textAlign: 'center', background: 'var(--bg-dark)', borderRadius: '12px', border: '1px dashed var(--border-color)' }}>
-          <p>No hay préstamos solicitados.</p>
+        <div className="glass-card" style={{ padding: '60px', textAlign: 'center', borderStyle: 'dashed' }}>
+          <Landmark size={48} style={{ color: 'var(--text-muted)', marginBottom: '16px', opacity: 0.5 }} />
+          <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)' }}>No se encontraron préstamos activos.</p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
-          {prestamos.map(p => (
-            <div key={p.id} className="cuenta-card" style={{ background: 'var(--bg-dark)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div className="cuenta-tipo">Préstamo #{p.id}</div>
-                <span style={{ padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem', background: p.estado === 'Aprobado' ? '#065f46' : p.estado === 'Pagado' ? '#3b82f6' : '#9a3412', color: 'white' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
+          {prestamos.map((p, index) => (
+            <div key={p.id} className="glass-card animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
+                <div>
+                   <div style={{ fontWeight: '700', fontSize: '1.1rem' }}>Préstamo #{p.id}</div>
+                   <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '2px' }}>Referencia Bancaria</div>
+                </div>
+                <span style={{ 
+                  padding: '4px 12px', 
+                  borderRadius: '20px', 
+                  fontSize: '0.75rem', 
+                  background: p.estado === 'Aprobado' ? 'rgba(16, 185, 129, 0.1)' : p.estado === 'Pagado' ? 'rgba(99, 102, 241, 0.1)' : 'rgba(245, 158, 11, 0.1)', 
+                  color: p.estado === 'Aprobado' ? '#10b981' : p.estado === 'Pagado' ? '#6366f1' : '#f59e0b',
+                  border: `1px solid ${p.estado === 'Aprobado' ? '#10b98140' : p.estado === 'Pagado' ? '#6366f140' : '#f59e0b40'}`
+                }}>
                   {p.estado}
                 </span>
               </div>
-              <div className="cuenta-saldo" style={{ marginTop: '16px' }}>
-                ${parseFloat(p.monto).toLocaleString()}
+              
+              <div style={{ marginBottom: '24px' }}>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '4px' }}>Monto Original</div>
+                <div style={{ fontSize: '1.75rem', fontWeight: '700', letterSpacing: '-0.02em' }}>
+                  <span style={{ fontSize: '1rem', verticalAlign: 'top', marginRight: '2px', color: 'var(--text-muted)' }}>$</span>
+                  {parseFloat(p.monto).toLocaleString()}
+                </div>
               </div>
-              <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '8px' }}>
-                Interés: {p.interes}% | Restante a pagar: ${parseFloat(p.monto_restante || 0).toLocaleString()}
+
+              <div className="glass-panel" style={{ padding: '16px', borderRadius: '16px', boxShadow: 'none', background: 'rgba(255,255,255,0.03)', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', marginBottom: '8px' }}>
+                  <span style={{ color: 'var(--text-muted)' }}>Interés Anual</span>
+                  <span style={{ fontWeight: '600' }}>{p.interes}%</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}>
+                  <span style={{ color: 'var(--text-muted)' }}>Monto Restante</span>
+                  <span style={{ fontWeight: '600', color: '#f43f5e' }}>${parseFloat(p.monto_restante || 0).toLocaleString()}</span>
+                </div>
               </div>
+
               {user.role === 'admin' && p.estado === 'Pendiente' && (
-                <button onClick={() => handleAprobar(p.id)} className="login-btn" style={{ marginTop: '12px', padding: '8px', fontSize: '0.85rem', background: '#059669' }}>
-                  Aprobar Préstamo
+                <button 
+                  onClick={() => handleAprobar(p.id)} 
+                  className="primary-btn" 
+                  style={{ width: '100%', justifyContent: 'center', background: 'linear-gradient(135deg, #10b981, #059669)' }}
+                >
+                  Aprobar Crédito
                 </button>
               )}
             </div>
@@ -146,6 +179,7 @@ function Prestamos() {
         </div>
       )}
     </MainLayout>
+
   );
 }
 
