@@ -6,27 +6,24 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const path = require('path');
-const rateLimit = require('express-rate-limit');
 const { connectDB, sequelize } = require('./database');
 
 const app = express();
 
-// Trust proxy para Render
+// Middlewares
 app.set('trust proxy', 1);
-
 app.use(cors({
   origin: process.env.FRONTEND_URL || ['http://localhost:5173', 'http://127.0.0.1:5173'],
   credentials: true
 }));
-
-app.use(express.json({ limit: '1mb' }));
+app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
 
-// Configuración de almacenamiento de sesiones
+// Configuración de Sesiones
 const sessionStore = new SequelizeStore({
   db: sequelize,
-  tableName: 'Sessions', // Nombre de la tabla que faltaba
+  tableName: 'Sessions', 
 });
 
 app.use(session({
@@ -37,30 +34,24 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000 // 24 horas
+    maxAge: 24 * 60 * 60 * 1000
   }
 }));
 
-// ============================
-// RUTAS DE LA API
-// ============================
+// Importar Rutas
 const authRoutes = require('./routes/Auth');
 const usuarioRoutes = require('./routes/Usuario');
 const cuentaRoutes = require('./routes/Cuenta');
 const transaccionRoutes = require('./routes/Transaccion');
 const prestamoRoutes = require('./routes/Prestamo');
-const pagoRoutes = require('./routes/Pago');
-const chatRoutes = require('./routes/Chat');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/cuentas', cuentaRoutes);
 app.use('/api/transacciones', transaccionRoutes);
 app.use('/api/prestamos', prestamoRoutes);
-app.use('/api/pagos', pagoRoutes);
-app.use('/api/chat', chatRoutes);
 
-// Servir Frontend en Producción
+// Servir Frontend
 if (process.env.NODE_ENV === 'production') {
   const frontendPath = path.join(__dirname, '../frontend/dist');
   app.use(express.static(frontendPath));
@@ -71,32 +62,27 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// ... (todo el código anterior igual)
-
 // ============================
-// INICIAR SERVIDOR
+// ARRANQUE SEGURO (EL CAMBIO CLAVE)
 // ============================
 const PORT = process.env.PORT || 10000;
 
-async function startServer() {
+async function start() {
   try {
-    // 1. Conectar a la base de datos
+    // 1. Conectar a la DB
     await connectDB();
     
-    // 2. Sincronizar la tabla de sesiones (esto crea la tabla 'Sessions')
+    // 2. FORZAR la creación de la tabla de sesiones antes de seguir
     await sessionStore.sync();
-    console.log('✅ Tabla de sesiones lista.');
-
-    // 3. Encender el servidor
+    console.log('✅ Tabla de sesiones confirmada en Aiven');
+    
+    // 3. Solo ahora encendemos el servidor
     app.listen(PORT, () => {
-      console.log(`✅ Servidor bancario en puerto ${PORT}`);
+      console.log(`🚀 SERVIDOR VIVO EN PUERTO ${PORT}`);
     });
-  } catch (error) {
-    console.error('❌ Error fatal al iniciar:', error.message);
-    process.exit(1); // Cerrar si hay error crítico
+  } catch (err) {
+    console.error('❌ Error en el arranque:', err.message);
   }
 }
 
-startServer();
-
-module.exports = app;
+start();
