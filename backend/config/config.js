@@ -1,23 +1,33 @@
+require('dotenv').config();
+
 module.exports = {
   development: {
-    username: "root",
-    password: "1234",
-    database: "banco_db",
-    host: "127.0.0.1",
+    username: process.env.DB_USERNAME || "root",
+    password: process.env.DB_PASSWORD || "1234",
+    database: process.env.DB_NAME || "banco_db",
+    host: process.env.DB_HOST || "127.0.0.1",
+    port: process.env.DB_PORT || 3306,
     dialect: "mysql"
   },
   test: {
-    username: "root",
-    password: "1234",
-    database: "banco_db_test",
-    host: "127.0.0.1",
+    username: process.env.DB_USERNAME || "root",
+    password: process.env.DB_PASSWORD || "1234",
+    database: process.env.DB_NAME_TEST || "banco_db_test",
+    host: process.env.DB_HOST || "127.0.0.1",
+    port: process.env.DB_PORT || 3306,
     dialect: "mysql"
   },
   production: {
-    username: "root",
-    password: "1234",
-    database: "banco_db_prod",
-    host: "127.0.0.1",
-    dialect: "mysql"
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT || 3306,
+    dialect: "mysql",
+    dialectOptions: {
+      ssl: {
+        rejectUnauthorized: false // Necesario para conexiones seguras como Aiven
+      }
+    }
   }
 };
