@@ -71,21 +71,32 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+// ... (todo el código anterior igual)
+
 // ============================
 // INICIAR SERVIDOR
 // ============================
 const PORT = process.env.PORT || 10000;
 
-app.listen(PORT, async () => {
-  console.log(`✅ Servidor bancario corriendo en el puerto ${PORT}`);
+async function startServer() {
   try {
+    // 1. Conectar a la base de datos
     await connectDB();
-    // VITAL: Esto crea la tabla de sesiones si no existe
-    await sessionStore.sync(); 
-    console.log('✅ Tabla de sesiones sincronizada correctamente');
+    
+    // 2. Sincronizar la tabla de sesiones (esto crea la tabla 'Sessions')
+    await sessionStore.sync();
+    console.log('✅ Tabla de sesiones lista.');
+
+    // 3. Encender el servidor
+    app.listen(PORT, () => {
+      console.log(`✅ Servidor bancario en puerto ${PORT}`);
+    });
   } catch (error) {
-    console.error('❌ Error al iniciar servicios:', error.message);
+    console.error('❌ Error fatal al iniciar:', error.message);
+    process.exit(1); // Cerrar si hay error crítico
   }
-});
+}
+
+startServer();
 
 module.exports = app;
