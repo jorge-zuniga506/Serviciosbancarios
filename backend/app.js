@@ -7,18 +7,13 @@ const cors = require('cors');
 const morgan = require('morgan');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
-const { connectDB, sequelize } = require('./database'); // Importamos sequelize para la sesión
+const { connectDB, sequelize } = require('./database');
 
 const app = express();
 
-// ============================
-// SECURITY MIDDLEWARES
-// ============================
-
-// Trust proxy para obtener IP real detrás de Render
+// Trust proxy para Render
 app.set('trust proxy', 1);
 
-// CORS — Permitir localhost y URL de producción
 app.use(cors({
   origin: process.env.FRONTEND_URL || ['http://localhost:5173', 'http://127.0.0.1:5173'],
   credentials: true
@@ -28,31 +23,10 @@ app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
 app.use(morgan('dev'));
 
-// Rate Limiting global
-const globalLimiter = rateLimit({
-  windowMs: 60 * 1000,
-  max: 100,
-  message: { message: 'Demasiadas solicitudes. Espera un momento.' },
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-app.use(globalLimiter);
-
-// Headers de seguridad básicos
-app.use((req, res, next) => {
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.removeHeader('X-Powered-By');
-  next();
-});
-
-// ============================
-// CONFIGURACIÓN DE SESIONES (VITAL PARA RENDER)
-// ============================
+// Configuración de Sesiones
 const sessionStore = new SequelizeStore({
   db: sequelize,
-  tableName: 'Sessions',
+  tableName: 'Sessions', // Nombre exacto de la tabla que faltaba
 });
 
 app.use(session({
@@ -61,14 +35,11 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // true en Render (HTTPS)
+    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000 // 24 horas
+    maxAge: 24 * 60 * 60 * 1000
   }
 }));
-
-// Sincronizar tabla de sesiones
-sessionStore.sync();
 
 // ============================
 // RUTAS DE LA API
@@ -89,43 +60,29 @@ app.use('/api/prestamos', prestamoRoutes);
 app.use('/api/pagos', pagoRoutes);
 app.use('/api/chat', chatRoutes);
 
-// ============================
-// PRODUCCIÓN: SERVIR FRONTEND
-// ============================
+// Servir Frontend en Producción
 if (process.env.NODE_ENV === 'production') {
   const frontendPath = path.join(__dirname, '../frontend/dist');
   app.use(express.static(frontendPath));
-  
   app.get('*', (req, res) => {
     if (!req.path.startsWith('/api')) {
       res.sendFile(path.join(frontendPath, 'index.html'));
     }
   });
-} else {
-  app.get('/', (req, res) => {
-    res.json({ message: 'API de Servicios Bancarios corriendo en modo Desarrollo' });
-  });
 }
 
-// ============================
-// ERROR HANDLER GLOBAL
-// ============================
-app.use((err, req, res, next) => {
-  console.error('[GLOBAL_ERROR]', err.message);
-  res.status(500).json({ message: 'Error interno del servidor' });
-});
-
-// ============================
-// INICIAR SERVIDOR
-// ============================
+// Iniciar Servidor
 const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, async () => {
   console.log(`✅ Servidor bancario corriendo en el puerto ${PORT}`);
   try {
     await connectDB();
+    // VITAL: Crear la tabla de sesiones apenas conecte la DB
+    await sessionStore.sync();
+    console.log('✅ Tabla de sesiones sincronizada');
   } catch (error) {
-    console.error('❌ Error al conectar la DB al iniciar:', error.message);
+    console.error('❌ Error al iniciar:', error.message);
   }
 });
 
