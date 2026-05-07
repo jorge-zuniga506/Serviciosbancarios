@@ -23,10 +23,10 @@ app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
 app.use(morgan('dev'));
 
-// Configuración de Sesiones
+// Configuración de almacenamiento de sesiones
 const sessionStore = new SequelizeStore({
   db: sequelize,
-  tableName: 'Sessions', // Nombre exacto de la tabla que faltaba
+  tableName: 'Sessions', // Nombre de la tabla que faltaba
 });
 
 app.use(session({
@@ -37,7 +37,7 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000
+    maxAge: 24 * 60 * 60 * 1000 // 24 horas
   }
 }));
 
@@ -71,18 +71,20 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// Iniciar Servidor
+// ============================
+// INICIAR SERVIDOR
+// ============================
 const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, async () => {
   console.log(`✅ Servidor bancario corriendo en el puerto ${PORT}`);
   try {
     await connectDB();
-    // VITAL: Crear la tabla de sesiones apenas conecte la DB
-    await sessionStore.sync();
-    console.log('✅ Tabla de sesiones sincronizada');
+    // VITAL: Esto crea la tabla de sesiones si no existe
+    await sessionStore.sync(); 
+    console.log('✅ Tabla de sesiones sincronizada correctamente');
   } catch (error) {
-    console.error('❌ Error al iniciar:', error.message);
+    console.error('❌ Error al iniciar servicios:', error.message);
   }
 });
 
