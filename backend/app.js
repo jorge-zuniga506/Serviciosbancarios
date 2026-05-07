@@ -3,61 +3,43 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const morgan = require('morgan');
+const path = require('path');
 const rateLimit = require('express-rate-limit');
 const { connectDB } = require('./database');
 
 const app = express();
 
-app.use(cookieParser());
-
 // ============================
 // SECURITY MIDDLEWARES
 // ============================
 
-// Trust proxy para obtener IP real detrás de reverse proxy
+// Trust proxy para obtener IP real detrás de reverse proxy (Render/Railway)
 app.set('trust proxy', 1);
 
-// CORS — solo permitir el frontend
+// CORS — Permitir localhost y prepararse para producción
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: process.env.FRONTEND_URL || ['http://localhost:5173', 'http://127.0.0.1:5173'],
   credentials: true
 }));
 
-// Parse JSON con límite de tamaño (prevenir payload bombs)
+// Parse JSON con límite de tamaño
 app.use(express.json({ limit: '1mb' }));
+app.use(cookieParser());
 
 // Logging
 app.use(morgan('dev'));
 
-// Rate Limiting global — máximo 100 requests por minuto por IP
+// Rate Limiting global
 const globalLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 100,
-  message: { message: 'Demasiadas solicitudes. Espera un momento antes de intentar de nuevo.' },
+  message: { message: 'Demasiadas solicitudes. Espera un momento.' },
   standardHeaders: true,
   legacyHeaders: false,
 });
 app.use(globalLimiter);
 
-// Rate Limiting estricto para login (prevenir brute force)
-const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 10, // máximo 10 intentos
-  message: { message: 'Demasiados intentos de login. Espera 15 minutos.' },
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-
-// Rate Limiting para transacciones financieras
-const transaccionLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minuto
-  max: 10, // máximo 10 transacciones por minuto
-  message: { message: 'Has excedido el límite de transacciones por minuto. Espera un momento.' },
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-
-// Headers de seguridad
+// Headers de seguridad básicos
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
@@ -67,42 +49,49 @@ app.use((req, res, next) => {
 });
 
 // ============================
-// RUTAS
+// RUTAS DE LA API
 // ============================
 
+const authRoutes = require('./routes/Auth');
 const usuarioRoutes = require('./routes/Usuario');
 const cuentaRoutes = require('./routes/Cuenta');
 const transaccionRoutes = require('./routes/Transaccion');
 const prestamoRoutes = require('./routes/Prestamo');
 const pagoRoutes = require('./routes/Pago');
 const chatRoutes = require('./routes/Chat');
-const authRoutes = require('./routes/Auth');
 
-// Ruta base
-app.get('/', (req, res) => {
-  res.json({ message: 'API de Servicios Bancarios v2.0 — Sistema Financiero Real' });
-});
-
-// Aplicar rate limiters específicos
-app.use('/api/auth/login', loginLimiter);
-app.use('/api/transacciones', transaccionLimiter);
-app.use('/api/pagos', transaccionLimiter);
-
-// Rutas
+app.use('/api/auth', authRoutes);
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/cuentas', cuentaRoutes);
 app.use('/api/transacciones', transaccionRoutes);
 app.use('/api/prestamos', prestamoRoutes);
 app.use('/api/pagos', pagoRoutes);
 app.use('/api/chat', chatRoutes);
-app.use('/api/auth', authRoutes);
+
+// ============================
+// PRODUCCIÓN: SERVIR FRONTEND
+// ============================
+if (process.env.NODE_ENV === 'production') {
+  const frontendPath = path.join(__dirname, '../frontend/dist');
+  app.use(express.static(frontendPath));
+  
+  // Cualquier ruta que no sea de la API, sirve el index.html del frontend
+  app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api')) {
+      res.sendFile(path.join(frontendPath, 'index.html'));
+    }
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.json({ message: 'API de Servicios Bancarios corriendo en modo Desarrollo' });
+  });
+}
 
 // ============================
 // ERROR HANDLER GLOBAL
 // ============================
 app.use((err, req, res, next) => {
   console.error('[GLOBAL_ERROR]', err.message);
-  // Nunca exponer stack traces en producción
   res.status(500).json({ message: 'Error interno del servidor' });
 });
 
@@ -112,8 +101,12 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, async () => {
-  console.log(`✅ Servidor corriendo en el puerto ${PORT}`);
-  await connectDB();
+  console.log(`✅ Servidor bancario corriendo en el puerto ${PORT}`);
+  try {
+    await connectDB();
+  } catch (error) {
+    console.error('❌ Error al conectar la DB al iniciar:', error.message);
+  }
 });
 
 module.exports = app;
