@@ -72,16 +72,19 @@ async function start() {
     // 1. Conectar a la DB
     await connectDB();
     
-    // 2. FORZAR la creación de la tabla de sesiones antes de seguir
-    await sessionStore.sync();
+    // 2. Sincronizar la tabla de sesiones ANTES de cualquier otra cosa
+    // El { alter: true } asegura que si la tabla no existe, se cree en ese momento
+    await sessionStore.sync({ alter: true });
     console.log('✅ Tabla de sesiones confirmada en Aiven');
     
-    // 3. Solo ahora encendemos el servidor
+    // 3. Encender el servidor
     app.listen(PORT, () => {
       console.log(`🚀 SERVIDOR VIVO EN PUERTO ${PORT}`);
     });
   } catch (err) {
-    console.error('❌ Error en el arranque:', err.message);
+    console.error('❌ Error fatal en el arranque:', err.message);
+    // IMPORTANTE: Si hay error, no dejamos que el proceso siga "vivo" a medias
+    process.exit(1); 
   }
 }
 
