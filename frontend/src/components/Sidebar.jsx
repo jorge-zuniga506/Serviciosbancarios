@@ -20,7 +20,7 @@ function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
-        <Landmark size={32} color="#3b82f6" />
+        <Landmark size={32} color="#ffffff" />
         <h2>BancoSeguro</h2>
       </div>
       

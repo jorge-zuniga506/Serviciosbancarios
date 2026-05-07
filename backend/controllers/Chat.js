@@ -1,5 +1,5 @@
 const { Usuario, Cuenta, Prestamo, Transaccion } = require('../models');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const Groq = require('groq-sdk');
 require('dotenv').config();
 
 const chatController = {
@@ -8,9 +8,9 @@ const chatController = {
       const { pregunta } = req.body;
       if (!pregunta) return res.status(400).json({ message: 'Por favor, haz una pregunta.' });
 
-      const geminiApiKey = process.env.GEMINI_API_KEY;
-      if (!geminiApiKey) {
-        return res.status(500).json({ message: 'API Key de Gemini no configurada.' });
+      const groqApiKey = process.env.GROQ_API_KEY;
+      if (!groqApiKey) {
+        return res.status(500).json({ message: 'API Key de Groq no configurada.' });
       }
 
       // 1. Obtener datos de la BD
@@ -31,25 +31,21 @@ const chatController = {
 
       Responde de forma muy breve, profesional y en español a la pregunta del usuario usando los datos anteriores.`;
 
-      // 3. Inicializar cliente y modelo de Gemini
-      const genAI = new GoogleGenerativeAI(geminiApiKey.trim());
-      const model = genAI.getGenerativeModel({ 
-        model: "gemini-2.5-flash",
-        systemInstruction: systemInstruction 
-      });
+      // 3. Inicializar cliente de Groq
+      const groq = new Groq({ apiKey: groqApiKey.trim() });
 
-      // 4. Llamada a la API de Gemini
-      const result = await model.generateContent({
-        contents: [
-          { role: 'user', parts: [{ text: pregunta }] }
+      // 4. Llamada a la API de Groq
+      const chatCompletion = await groq.chat.completions.create({
+        messages: [
+          { role: 'system', content: systemInstruction },
+          { role: 'user', content: pregunta }
         ],
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 500,
-        }
+        model: "llama-3.3-70b-versatile",
+        temperature: 0.7,
+        max_tokens: 500,
       });
       
-      const responseText = result.response.text();
+      const responseText = chatCompletion.choices[0]?.message?.content;
 
       res.json({
         asistente: responseText || "No se pudo generar una respuesta.",
@@ -57,9 +53,9 @@ const chatController = {
       });
 
     } catch (error) {
-      console.error('Error Gemini:', error.message);
+      console.error('Error Groq:', error.message);
       res.status(500).json({ 
-        error: 'Error al conectar con Gemini', 
+        error: 'Error al conectar con Groq', 
         detalle: error.message 
       });
     }

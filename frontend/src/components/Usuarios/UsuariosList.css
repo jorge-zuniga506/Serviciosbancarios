@@ -1,0 +1,141 @@
+.usuarios-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.usuarios-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.usuarios-subtitle {
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.admin-badge {
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: rgba(186, 26, 26, 0.1);
+  color: var(--error);
+  border: 1px solid rgba(186, 26, 26, 0.2);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.loading-container {
+  text-align: center;
+  padding: 40px;
+}
+
+.loading-dot {
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  margin: 0 auto 16px;
+  border-radius: 50%;
+}
+
+.empty-state-card {
+  padding: 60px;
+  text-align: center;
+  border-style: dashed;
+}
+
+.empty-state-icon {
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state-text {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+.usuarios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.user-header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-glow);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.user-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--on-background);
+}
+
+.user-role {
+  font-size: 0.8rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.user-id {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.user-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.detail-icon {
+  color: var(--text-muted);
+}
+
+.detail-text {
+  color: var(--text-main);
+}
+
+.internal-id-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  margin-top: 8px;
+  padding: 8px;
+  background: var(--surface-container-high);
+  border-radius: 8px;
+}
+
+.internal-id-label {
+  color: var(--text-muted);
+}
+
+.internal-id-value {
+  color: var(--accent);
+}

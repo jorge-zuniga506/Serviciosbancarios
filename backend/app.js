@@ -1,11 +1,14 @@
 require('dotenv').config();
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const { connectDB } = require('./database');
 
 const app = express();
+
+app.use(cookieParser());
 
 // ============================
 // SECURITY MIDDLEWARES

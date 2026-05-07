@@ -2,9 +2,10 @@ const express = require('express');
 const { body } = require('express-validator');
 const router = express.Router();
 const authController = require('../controllers/Auth');
+const { authMiddleware } = require('../middleware/authMiddleware');
 
 const loginValidation = [
-  body('email').isEmail().normalizeEmail(),
+  body('cedula').notEmpty().isNumeric(),
   body('password').notEmpty()
 ];
 
@@ -18,5 +19,9 @@ const registerValidation = [
 router.post('/login', loginValidation, authController.login);
 router.post('/register', registerValidation, authController.register);
 router.get('/cedula/:cedula', authController.getCedula);
+
+// Perfil actual del usuario con rol REAL desde la BD
+router.get('/me', authMiddleware, authController.me);
+router.get('/logout', authController.logout);
 
 module.exports = router;

@@ -12,4 +12,7 @@ router.get('/', authMiddleware, prestamoController.getAll);
 // Aprobar/Rechazar (solo admin)
 router.put('/:id/estado', authMiddleware, requireAdmin, prestamoController.updateStatus);
 
+// Rechazar con razón de IA generada por Groq (solo admin)
+router.post('/:id/rechazar', authMiddleware, requireAdmin, prestamoController.rechazarConGroq);
+
 module.exports = router;

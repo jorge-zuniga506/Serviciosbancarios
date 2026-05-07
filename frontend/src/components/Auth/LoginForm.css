@@ -1,0 +1,133 @@
+.login-form-wrap {
+  background: radial-gradient(circle at center, rgba(0, 50, 125, 0.06) 0%, transparent 70%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.login-card {
+  padding: 48px;
+  width: 100%;
+  max-width: 440px;
+  text-align: center;
+}
+
+.login-icon-wrap {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-glow);
+  border-radius: 50%;
+  border: 1px solid var(--outline);
+}
+
+.login-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--on-background);
+}
+
+.login-subtitle {
+  color: var(--text-muted);
+}
+
+.login-header {
+  margin-bottom: 40px;
+}
+
+.login-error {
+  background: rgba(186, 26, 26, 0.08);
+  color: var(--error);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(186, 26, 26, 0.2);
+  font-size: 0.9rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.login-field {
+  text-align: left;
+}
+
+.login-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: block;
+  margin-left: 4px;
+}
+
+.login-input-wrap {
+  position: relative;
+}
+
+.login-input-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.login-input {
+  width: 100%;
+  padding-left: 48px;
+  background: var(--background);
+  border: 1px solid var(--outline);
+  border-radius: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 16px;
+  color: var(--on-background);
+  outline: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+}
+
+.login-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 50, 125, 0.1);
+}
+
+.login-submit-btn {
+  justify-content: center;
+  padding: 14px;
+  margin-top: 12px;
+  font-size: 1rem;
+}
+
+.login-footer-link {
+  margin-top: 32px;
+  font-size: 0.9rem;
+}
+
+.login-footer-link span {
+  color: var(--text-muted);
+}
+
+.login-footer-link a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-security-note {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--outline);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}

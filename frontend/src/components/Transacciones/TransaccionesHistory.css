@@ -1,0 +1,179 @@
+.transacciones-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.transacciones-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.transacciones-subtitle {
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.transacciones-form-card {
+  margin-bottom: 32px;
+  border: 1px solid var(--accent);
+}
+
+.transacciones-form-title {
+  margin-bottom: 16px;
+  font-size: 1.25rem;
+}
+
+.transacciones-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: end;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-select,
+.form-input {
+  width: 100%;
+}
+
+.form-span-2 {
+  grid-column: span 2;
+}
+
+.form-actions {
+  grid-column: span 2;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-submit-btn {
+  padding: 12px 40px;
+}
+
+.loading-container {
+  text-align: center;
+  padding: 40px;
+}
+
+.loading-dot {
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  margin: 0 auto 16px;
+  border-radius: 50%;
+}
+
+.empty-state-card {
+  padding: 60px;
+  text-align: center;
+  border-style: dashed;
+}
+
+.empty-state-icon {
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state-text {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+.transacciones-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.transaccion-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+}
+
+.transaccion-left {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.transaccion-icon-wrap {
+  padding: 12px;
+  border-radius: 16px;
+  box-shadow: none;
+  background: var(--surface-container-high);
+}
+
+.transaccion-info-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.transaccion-tipo {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.transaccion-badge {
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.transaccion-cuentas {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.transaccion-cuenta-num {
+  font-family: monospace;
+}
+
+.transaccion-flecha {
+  margin: 0 8px;
+}
+
+.transaccion-descripcion {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.transaccion-right {
+  text-align: right;
+}
+
+.transaccion-monto {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.transaccion-monto.ingreso {
+  color: #10b981;
+}
+
+.transaccion-monto.egreso {
+  color: #f43f5e;
+}
+
+.transaccion-meta {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  margin-top: 4px;
+}

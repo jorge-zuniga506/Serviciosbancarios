@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus Capital - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-container": "#8293b5",
+                      "on-secondary-container": "#00743a",
+                      "on-tertiary-container": "#909395",
+                      "surface": "#f8f9ff",
+                      "surface-dim": "#cbdbf5",
+                      "on-secondary-fixed": "#00210c",
+                      "tertiary": "#141719",
+                      "inverse-primary": "#b6c7eb",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-container": "#282c2e",
+                      "on-secondary": "#ffffff",
+                      "background": "#f8f9ff",
+                      "on-error-container": "#93000a",
+                      "on-surface": "#0b1c30",
+                      "on-primary-fixed": "#081b38",
+                      "on-tertiary-fixed-variant": "#444749",
+                      "error-container": "#ffdad6",
+                      "surface-bright": "#f8f9ff",
+                      "tertiary-fixed-dim": "#c4c7c9",
+                      "surface-container-highest": "#d3e4fe",
+                      "tertiary-fixed": "#e0e3e5",
+                      "primary-fixed-dim": "#b6c7eb",
+                      "outline-variant": "#c5c6ce",
+                      "secondary-fixed": "#6bfe9c",
+                      "on-background": "#0b1c30",
+                      "on-surface-variant": "#44474d",
+                      "outline": "#75777e",
+                      "surface-tint": "#4e5f7e",
+                      "primary": "#031632",
+                      "on-primary-fixed-variant": "#374765",
+                      "surface-container-high": "#dce9ff",
+                      "secondary-container": "#6bfe9c",
+                      "surface-container-low": "#eff4ff",
+                      "primary-fixed": "#d7e2ff",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-fixed": "#191c1e",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-primary": "#ffffff",
+                      "surface-variant": "#d3e4fe",
+                      "on-error": "#ffffff",
+                      "secondary-fixed-dim": "#4ae183",
+                      "inverse-surface": "#213145",
+                      "secondary": "#006d37",
+                      "error": "#ba1a1a",
+                      "surface-container": "#e5eeff",
+                      "on-secondary-fixed-variant": "#005228",
+                      "primary-container": "#1a2b48"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "md": "1rem",
+                      "xl": "2.5rem",
+                      "margin-page": "2rem",
+                      "lg": "1.5rem",
+                      "base": "4px",
+                      "sm": "0.5rem",
+                      "xs": "0.25rem",
+                      "gutter": "1.5rem"
+              },
+              "fontFamily": {
+                      "headline-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "headline-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface-bright text-on-surface antialiased min-h-screen flex flex-col md:flex-row font-body-md">
+<!-- Left Column: Login Form -->
+<div class="w-full md:w-[480px] lg:w-[560px] flex-shrink-0 bg-surface-container-lowest flex flex-col p-8 md:p-12 lg:p-16 z-20 shadow-[0_0_40px_rgba(26,43,72,0.08)] relative">
+<!-- Branding -->
+<div class="mb-16 flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-tight">Nexus Capital</span>
+</div>
+<!-- Headers -->
+<div class="mb-10">
+<h1 class="font-headline-lg text-headline-lg text-primary mb-2">Bienvenido</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Ingresa a tu banca digital</p>
+</div>
+<!-- Form -->
+<form class="flex flex-col gap-6">
+<!-- ID Field -->
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-2 tracking-wide" for="cedula">CÉDULA DE IDENTIDAD</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">badge</span>
+<input class="w-full border border-outline-variant rounded-lg pl-12 pr-4 py-3.5 bg-surface-bright focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-container/20 transition-all font-body-md text-on-surface placeholder:text-outline-variant" id="cedula" placeholder="000-0000000-0" type="text"/>
+</div>
+</div>
+<!-- Password Field -->
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-2 tracking-wide" for="password">CONTRASEÑA</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">key</span>
+<input class="w-full border border-outline-variant rounded-lg pl-12 pr-12 py-3.5 bg-surface-bright focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-container/20 transition-all font-body-md text-on-surface placeholder:text-outline-variant" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors focus:outline-none" type="button">
+<span class="material-symbols-outlined">visibility_off</span>
+</button>
+</div>
+<div class="text-right mt-3">
+<a class="font-label-sm text-label-sm text-primary hover:text-primary-container transition-colors underline-offset-4 hover:underline" href="#">¿Olvidaste tu contraseña?</a>
+</div>
+</div>
+<!-- Submit Action -->
+<button class="mt-4 w-full bg-secondary text-on-secondary font-label-md text-label-md py-4 rounded-lg shadow-[0_4px_14px_rgba(0,109,55,0.25)] hover:bg-on-secondary-fixed-variant hover:shadow-[0_6px_20px_rgba(0,109,55,0.3)] transition-all flex justify-center items-center gap-2" type="submit">
+                INGRESAR
+                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</form>
+<!-- Security Badge -->
+<div class="mt-8 flex justify-center items-center gap-2 text-on-surface-variant bg-surface py-3 rounded-lg border border-surface-dim">
+<span class="material-symbols-outlined text-[18px] text-secondary">lock</span>
+<span class="font-label-sm text-label-sm">Conexión cifrada AES-256</span>
+</div>
+<!-- Mobile Registration Prompt (Visible only on small screens) -->
+<div class="mt-auto pt-16 md:hidden flex flex-col items-center">
+<div class="w-full h-[1px] bg-outline-variant/30 mb-6"></div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">¿Eres nuevo en Nexus Capital?</p>
+<button class="w-full border-2 border-primary text-primary font-label-md text-label-md py-3.5 rounded-lg hover:bg-surface-container-low transition-colors">REGISTRARSE</button>
+</div>
+</div>
+<!-- Right Column: Visual Context & Registration -->
+<div class="hidden md:flex flex-1 relative bg-primary overflow-hidden flex-col justify-between p-12 lg:p-24">
+<!-- Background Image -->
+<img class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity" data-alt="A striking, modern architectural interior of a corporate bank headquarters. The scene is captured with wide-angle perspective, showing clean lines, towering glass windows, and minimalist geometric structures. Soft, high-key natural lighting floods the space, enhancing the light-mode aesthetic and emphasizing a palette of crisp whites, subtle grays, and deep navy accents. The mood conveys institutional trust, stability, and professional calm." src="https://lh3.googleusercontent.com/aida/ADBb0uhOXXEE3ZgtVcuo-n-AYRIGv5awg5rgqXLP66DIyS8HKnA-vOSHJJmV8TNy3gJzl2vC97IqeUU3S-18vuCxpt_GKpqsge7TLUPcjx8t1j4Ft5CpCwlT3bmWp55pSugEmnOMPTpwz83BskSB7p7vjJUURGAyYcKuxPl1y_TPQQI90Pzw4YUqbssg1-Iw6ZXFyU5gEmwQd2QTjLswjQDPqDuquoDcgARAUuDZA7XjJmlCDfcp1h25k6OqwBl3OpQPIGrgMoCyZ9_H"/>
+<!-- Gradient Overlay for Depth -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/95 via-primary/80 to-primary/40"></div>
+<!-- Decorative Top Element -->
+<div class="relative z-10 w-full flex justify-end">
+<div class="flex gap-4">
+<a class="text-inverse-primary hover:text-white font-label-sm text-label-sm transition-colors" href="#">Ayuda</a>
+<span class="text-outline-variant">|</span>
+<a class="text-inverse-primary hover:text-white font-label-sm text-label-sm transition-colors" href="#">Seguridad</a>
+</div>
+</div>
+<!-- Registration Floating Card -->
+<div class="relative z-10 max-w-lg mt-auto pb-12">
+<!-- Glassmorphism Container -->
+<div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 lg:p-10 text-white shadow-2xl relative overflow-hidden group">
+<!-- Decorative embedded image showing a premium card -->
+<div class="absolute top-0 right-0 w-32 h-32 opacity-20 transform translate-x-4 -translate-y-4 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A close-up, highly detailed shot of a sleek, premium metallic credit card resting on a pristine white marble surface. The lighting is precise and dramatic, highlighting the card's textured surface and subtle silver foil details against the stark, clean background. The visual style is strictly corporate modern, using a color scheme dominated by cool grays, deep navy blues, and stark whites. The image evokes feelings of wealth, security, and high-end financial services." src="https://lh3.googleusercontent.com/aida/ADBb0ujiXyNY7qdesL2bhab_C7uL_mC8Cd-zHEjcOvxwDePHf3yRMWnXPlEVisCNT2uoymlPvWrDdw-UxFlqhCeTokOvKDIl2Rp7fepGvRg_usjKgcLgRVnX5w5tjkCBoErOs_g_ExPQgBJEvGH0wen0uql1ihiuIVx8_ZHRaas1v2k7s9qpwEj8U3pUuOhfjJN4zlBJpdVFNR-fqM9WyOC1bIKkP9vjB2tVNmOFejAa2RR-KEEiNGFGATNEj_DSCvzHsYuh-aa31Xo_"/>
+</div>
+<div class="relative z-10">
+<div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-white text-[24px]">verified_user</span>
+</div>
+<h2 class="font-headline-md text-headline-md mb-3 text-white">¿Eres nuevo?</h2>
+<p class="font-body-md text-body-md text-inverse-primary mb-8 leading-relaxed pr-8">
+                        Abre tu cuenta hoy y descubre una experiencia bancaria diseñada para la estabilidad y precisión que tu patrimonio necesita.
+                    </p>
+<button class="border-2 border-white/40 hover:border-white text-white font-label-md text-label-md py-3 px-8 rounded-lg transition-all backdrop-blur-sm bg-white/5 hover:bg-white/10 flex items-center gap-2">
+                        REGISTRARSE
+                        <span class="material-symbols-outlined text-[18px]">arrow_outward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

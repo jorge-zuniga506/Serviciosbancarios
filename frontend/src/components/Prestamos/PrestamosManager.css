@@ -1,0 +1,319 @@
+.prestamos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.prestamos-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.prestamos-subtitle {
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.prestamos-form-card {
+  margin-bottom: 32px;
+  border: 1px solid var(--accent);
+}
+
+.prestamos-form-title {
+  margin-bottom: 16px;
+  font-size: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-select,
+.form-input {
+  width: 100%;
+}
+
+.loading-container {
+  text-align: center;
+  padding: 40px;
+}
+
+.loading-dot {
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  margin: 0 auto 16px;
+  border-radius: 50%;
+}
+
+.empty-state-card {
+  padding: 60px;
+  text-align: center;
+  border-style: dashed;
+}
+
+.empty-state-icon {
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state-text {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+.prestamos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.prestamo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.prestamo-id {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.prestamo-ref {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.prestamo-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+}
+
+.prestamo-monto-section {
+  margin-bottom: 24px;
+}
+
+.prestamo-monto-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.prestamo-monto-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.prestamo-monto-symbol {
+  font-size: 1rem;
+  vertical-align: top;
+  margin-right: 2px;
+  color: var(--text-muted);
+}
+
+.prestamo-details-box {
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: none;
+  background: var(--surface-container-high);
+  margin-bottom: 24px;
+}
+
+.prestamo-detail-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.prestamo-detail-row + .prestamo-detail-row {
+  margin-top: 8px;
+}
+
+.prestamo-detail-label {
+  color: var(--text-muted);
+}
+
+.prestamo-detail-value {
+  font-weight: 600;
+}
+
+.prestamo-detail-value.restante {
+  color: #f43f5e;
+}
+
+.prestamo-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.prestamo-approve-btn {
+  flex: 1;
+  justify-content: center;
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.prestamo-reject-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 18px;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.06);
+  color: #ef4444;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.prestamo-reject-btn:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.14);
+  border-color: rgba(239, 68, 68, 0.7);
+}
+
+.prestamo-reject-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.prestamo-rechazo-nota {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.prestamo-rechazo-label {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* ── Groq AI Rejection Modal ── */
+.rechazo-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.rechazo-modal {
+  background: var(--surface);
+  border-radius: 20px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.rechazo-modal-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px 24px 20px;
+  border-bottom: 1px solid var(--outline);
+}
+
+.rechazo-modal-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rechazo-modal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--on-background);
+  margin-bottom: 4px;
+}
+
+.rechazo-modal-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.rechazo-modal-close {
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.rechazo-modal-close:hover {
+  background: var(--surface-container-high);
+}
+
+.rechazo-modal-body {
+  padding: 24px;
+}
+
+.rechazo-groq-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-glow);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--outline);
+  margin-bottom: 16px;
+}
+
+.rechazo-razon {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--on-background);
+}
+
+.rechazo-modal-footer {
+  padding: 16px 24px 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Spinner animation for loading icon */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+}

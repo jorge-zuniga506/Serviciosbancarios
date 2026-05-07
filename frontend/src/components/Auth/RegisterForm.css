@@ -1,0 +1,135 @@
+.register-wrap {
+  background: radial-gradient(circle at center, rgba(0, 50, 125, 0.06) 0%, transparent 70%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  padding: 40px 20px;
+}
+
+.register-card {
+  padding: 48px;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.register-header {
+  margin-bottom: 32px;
+}
+
+.register-icon-wrap {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-glow);
+  border-radius: 50%;
+  border: 1px solid var(--outline);
+}
+
+.register-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--on-background);
+}
+
+.register-subtitle {
+  color: var(--text-muted);
+}
+
+.register-error {
+  background: rgba(186, 26, 26, 0.08);
+  color: var(--error);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(186, 26, 26, 0.2);
+  font-size: 0.9rem;
+}
+
+.register-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  text-align: left;
+}
+
+.register-span-2 {
+  grid-column: span 2;
+}
+
+.register-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: block;
+  margin-left: 4px;
+}
+
+.register-input-wrap {
+  position: relative;
+}
+
+.register-input-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.register-input {
+  width: 100%;
+  background: var(--background);
+  border: 1px solid var(--outline);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--on-background);
+  outline: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+}
+
+.register-input.with-icon {
+  padding-left: 48px;
+}
+
+.register-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 50, 125, 0.1);
+}
+
+.register-cedula-status {
+  font-size: 0.75rem;
+  color: var(--accent);
+  margin-top: 8px;
+  margin-left: 4px;
+}
+
+.register-submit-btn {
+  grid-column: span 2;
+  justify-content: center;
+  padding: 14px;
+  margin-top: 10px;
+}
+
+.register-footer-link {
+  margin-top: 24px;
+  font-size: 0.9rem;
+}
+
+.register-footer-link span {
+  color: var(--text-muted);
+}
+
+.register-footer-link a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}

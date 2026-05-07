@@ -1,0 +1,384 @@
+/* ─── Panel del Cliente - ModernBank Design ─── */
+
+/* Header */
+.client-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.client-greeting {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--on-background);
+  letter-spacing: -0.02em;
+}
+
+.client-greeting-sub {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Total Balance Card */
+.balance-hero-card {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant, #c5c6ce);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(26, 43, 72, 0.05);
+}
+
+.balance-hero-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.balance-hero-amount {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--primary);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.balance-hero-currency {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.balance-hero-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* Section headers */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--on-background);
+}
+
+.section-link {
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.section-link:hover {
+  text-decoration: underline;
+}
+
+/* Account Cards */
+.accounts-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.account-mini-card {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant, #c5c6ce);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(26, 43, 72, 0.04);
+  transition: box-shadow 0.2s ease;
+}
+
+.account-mini-card:hover {
+  box-shadow: 0 6px 20px rgba(26, 43, 72, 0.1);
+}
+
+.account-mini-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.account-mini-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--surface-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-mini-num {
+  font-size: 0.7rem;
+  font-family: monospace;
+  color: var(--text-muted);
+  background: var(--surface-container-high);
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.account-mini-type {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--on-background);
+  margin-bottom: 4px;
+}
+
+.account-mini-balance {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+}
+
+/* Promo Banner */
+.promo-banner {
+  background: linear-gradient(135deg, var(--primary-container, #1a2b48) 0%, #0a1929 100%);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.promo-banner::before {
+  content: '';
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(46, 204, 113, 0.08);
+}
+
+.promo-banner-left {
+  position: relative;
+  z-index: 1;
+}
+
+.promo-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #2ecc71;
+  background: rgba(46, 204, 113, 0.12);
+  border: 1px solid rgba(46, 204, 113, 0.3);
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.promo-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 6px;
+}
+
+.promo-desc {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 300px;
+  line-height: 1.5;
+}
+
+.promo-btn {
+  position: relative;
+  z-index: 1;
+  background: #2ecc71;
+  color: #0a1929;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.promo-btn:hover {
+  background: #27ae60;
+}
+
+/* Activity List */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant, #c5c6ce);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(26, 43, 72, 0.04);
+}
+
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  transition: background 0.15s ease;
+  border-bottom: 1px solid var(--outline-variant, #c5c6ce);
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-item:hover {
+  background: var(--surface-container-low);
+}
+
+.activity-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.activity-icon.ingreso {
+  background: rgba(46, 204, 113, 0.1);
+}
+
+.activity-icon.egreso {
+  background: rgba(3, 22, 50, 0.07);
+}
+
+.activity-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--on-background);
+}
+
+.activity-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.activity-right {
+  text-align: right;
+}
+
+.activity-amount {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.activity-amount.ingreso {
+  color: #2ecc71;
+}
+
+.activity-amount.egreso {
+  color: var(--on-background);
+}
+
+.activity-status {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 600;
+  margin-top: 4px;
+  display: inline-block;
+}
+
+.activity-status.completada {
+  background: rgba(46, 204, 113, 0.1);
+  color: #2ecc71;
+}
+
+.activity-status.pendiente {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.activity-status.fallida {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.view-all-link {
+  display: block;
+  text-align: center;
+  padding: 14px;
+  font-size: 0.875rem;
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+  border-top: 1px solid var(--outline-variant, #c5c6ce);
+  transition: background 0.15s;
+  background: var(--surface-container-lowest);
+  border-radius: 0 0 12px 12px;
+  text-decoration: none;
+}
+
+.view-all-link:hover {
+  background: var(--surface-container-low);
+}
+
+/* Empty states */
+.client-empty {
+  text-align: center;
+  padding: 48px;
+  border: 1px dashed var(--outline-variant, #c5c6ce);
+  border-radius: 12px;
+  color: var(--text-muted);
+}
+
+/* Loading */
+.client-loading {
+  text-align: center;
+  padding: 60px;
+  color: var(--text-muted);
+}
+
+.client-loading-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin: 0 auto 16px;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}

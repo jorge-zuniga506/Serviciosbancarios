@@ -1,32 +1,11 @@
-import axios from 'axios';
+import requestXHR from './utils/requestXHR';
 
-const api = axios.create({
-  baseURL: 'http://127.0.0.1:3000/api',
-});
-
-// Interceptor para agregar el token en cada petición
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-// Interceptor para manejar errores (401 y 403)
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-      // Si el token es inválido o expiró, cerramos sesión
-      localStorage.removeItem('token');
-      window.dispatchEvent(new Event('auth-error'));
-    }
-    return Promise.reject(error);
-  }
-);
+const api = {
+  get: (url, headers = {}) => requestXHR(url, 'GET', null, headers),
+  post: (url, data, headers = {}) => requestXHR(url, 'POST', data, headers),
+  put: (url, data, headers = {}) => requestXHR(url, 'PUT', data, headers),
+  delete: (url, headers = {}) => requestXHR(url, 'DELETE', null, headers),
+  patch: (url, data, headers = {}) => requestXHR(url, 'PATCH', data, headers),
+};
 
 export default api;

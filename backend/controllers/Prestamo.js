@@ -4,12 +4,14 @@
  * Flujo real:
  * 1. Usuario solicita préstamo → estado "Pendiente"
  * 2. Admin aprueba → desembolso real a cuenta del usuario, registrado en el ledger
- * 3. Admin puede rechazar → estado "Rechazado"
+ * 3. Admin puede rechazar → estado "Rechazado" con razón generada por Groq
  * 4. Pagos reducen monto_restante hasta "Pagado"
  */
-const { Prestamo, Usuario, Cuenta, Transaccion, sequelize } = require('../models');
+const { Prestamo, Usuario, Cuenta, Transaccion, Pago, sequelize } = require('../models');
 const { v4: uuidv4 } = require('uuid');
 const { registrarAuditoria, getClientIP } = require('../middleware/auditLogger');
+const Groq = require('groq-sdk');
+require('dotenv').config();
 
 const prestamoController = {
   /**
@@ -204,6 +206,109 @@ const prestamoController = {
       try { await t.rollback(); } catch (e) { }
       console.error('[UPDATE_PRESTAMO]', error.message);
       res.status(500).json({ message: 'Error al procesar el préstamo. Ningún saldo fue modificado.' });
+    }
+  },
+  /**
+   * Rechazar préstamo con razón generada por Groq basada en estadísticas del cliente.
+   * Solo admin. Recopila datos reales del usuario y genera análisis crediticio con IA.
+   */
+  rechazarConGroq: async (req, res) => {
+    const t = await sequelize.transaction();
+    try {
+      if (req.user.role !== 'admin') {
+        await t.rollback();
+        return res.status(403).json({ message: 'Solo administradores pueden rechazar préstamos' });
+      }
+
+      const prestamo = await Prestamo.findByPk(req.params.id, {
+        include: [{ model: Usuario, as: 'usuario' }],
+        transaction: t
+      });
+
+      if (!prestamo) {
+        await t.rollback();
+        return res.status(404).json({ message: 'Préstamo no encontrado' });
+      }
+
+      if (prestamo.estado !== 'Pendiente') {
+        await t.rollback();
+        return res.status(400).json({ message: `No se puede rechazar un préstamo en estado "${prestamo.estado}"` });
+      }
+
+      // ── Recopilar estadísticas del cliente ──
+      const usuario = prestamo.usuario;
+      const userId = prestamo.usuario_id;
+
+      const [cuentas, prestamosAnteriores, pagosRealizados, transacciones] = await Promise.all([
+        Cuenta.findAll({ where: { usuario_id: userId } }),
+        Prestamo.findAll({ where: { usuario_id: userId } }),
+        Pago.findAll({ where: { '$prestamo.usuario_id$': userId }, include: [{ model: Prestamo, as: 'prestamo' }] }).catch(() => []),
+        Transaccion.findAll({ where: { cuenta_id: { [require('sequelize').Op.in]: [] } } }).catch(() => [])
+      ]);
+
+      const saldoTotal = cuentas.reduce((sum, c) => sum + parseFloat(c.saldo || 0), 0);
+      const prestamosActivos = prestamosAnteriores.filter(p => p.estado === 'Aprobado').length;
+      const prestamosRechazados = prestamosAnteriores.filter(p => p.estado === 'Rechazado').length;
+      const prestamosPagados = prestamosAnteriores.filter(p => p.estado === 'Pagado').length;
+      const deudaTotal = prestamosAnteriores
+        .filter(p => p.estado === 'Aprobado')
+        .reduce((sum, p) => sum + parseFloat(p.monto_restante || 0), 0);
+      const montoSolicitado = parseFloat(prestamo.monto);
+      const ratioDeudaSaldo = saldoTotal > 0 ? (deudaTotal / saldoTotal).toFixed(2) : 'N/A';
+
+      // ── Llamar a Groq para generar razón ──
+      const groq = new Groq({ apiKey: process.env.GROQ_API_KEY?.trim() });
+
+      const prompt = `Eres un oficial de crédito bancario experto. Analiza este perfil crediticio y redacta una razón de rechazo formal, clara y específica en español (máximo 4 oraciones). 
+
+PERFIL DEL CLIENTE:
+- Nombre: ${usuario.nombre} ${usuario.apellido}
+- Monto solicitado: $${montoSolicitado.toLocaleString()}
+- Tasa de interés: ${prestamo.interes}%
+- Saldo total en cuentas: $${saldoTotal.toFixed(2)}
+- Préstamos activos actuales: ${prestamosActivos}
+- Deuda vigente total: $${deudaTotal.toFixed(2)}
+- Ratio deuda/saldo: ${ratioDeudaSaldo}
+- Préstamos rechazados anteriores: ${prestamosRechazados}
+- Préstamos pagados exitosamente: ${prestamosPagados}
+- Número de cuentas: ${cuentas.length}
+
+Redacta SOLO la razón de rechazo, sin saludos ni títulos. Sé específico con los números.`;
+
+      const completion = await groq.chat.completions.create({
+        messages: [{ role: 'user', content: prompt }],
+        model: 'llama-3.3-70b-versatile',
+        temperature: 0.4,
+        max_tokens: 300,
+      });
+
+      const razonRechazo = completion.choices[0]?.message?.content || 'Solicitud rechazada por no cumplir los criterios crediticios del banco.';
+
+      // ── Actualizar estado del préstamo ──
+      prestamo.estado = 'Rechazado';
+      prestamo.razon_rechazo = razonRechazo;
+      await prestamo.save({ transaction: t });
+      await t.commit();
+
+      await registrarAuditoria({
+        tabla: 'Prestamos',
+        registro_id: prestamo.id,
+        accion: 'UPDATE',
+        detalle: `Préstamo #${prestamo.id} RECHAZADO por admin ${req.user.userId}. Razón generada por IA.`,
+        usuario_id: req.user.userId,
+        ip_address: getClientIP(req)
+      });
+
+      res.json({
+        message: 'Préstamo rechazado exitosamente',
+        razon_rechazo: razonRechazo,
+        prestamo
+      });
+
+    } catch (error) {
+      try { await t.rollback(); } catch (e) { }
+      console.error('[RECHAZAR_PRESTAMO_GROQ]', error.message);
+      res.status(500).json({ message: 'Error al rechazar el préstamo', detalle: error.message });
     }
   }
 };

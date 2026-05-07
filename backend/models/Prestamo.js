@@ -49,6 +49,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       comment: 'Cuenta donde se desembolsó'
     },
+    razon_rechazo: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      comment: 'Razón de rechazo generada por IA (Groq)'
+    },
     usuario_id: {
       type: DataTypes.INTEGER,
       allowNull: false

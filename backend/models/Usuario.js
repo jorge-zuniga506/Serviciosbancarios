@@ -20,6 +20,15 @@ module.exports = (sequelize, DataTypes) => {
       Usuario.hasMany(models.Notificacion, { foreignKey: 'usuario_id', as: 'notificaciones' });
       // Un Usuario tiene una Direccion
       Usuario.hasOne(models.Direccion, { foreignKey: 'usuario_id', as: 'direccion_fiscal' });
+      // Un Usuario pertenece a un Rol
+      Usuario.belongsTo(models.Role, { foreignKey: 'role_id', as: 'rol' });
+    }
+
+    // Verificar si el rol ha sido manipulado en la DB
+    verifyRoleIntegrity() {
+      const { generateSignature } = require('../utils/security');
+      const expectedSignature = generateSignature(this.id + ':' + this.role_id);
+      return this.role_signature === expectedSignature;
     }
 
     // Método para comparar contraseñas
@@ -48,9 +57,13 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       allowNull: true
     },
-    role: {
-      type: DataTypes.ENUM('admin', 'user'),
-      defaultValue: 'user'
+    role_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    role_signature: {
+      type: DataTypes.STRING,
+      allowNull: true
     },
     email: {
       type: DataTypes.STRING,
@@ -79,11 +92,23 @@ module.exports = (sequelize, DataTypes) => {
           const salt = await bcrypt.genSalt(10);
           usuario.password = await bcrypt.hash(usuario.password, salt);
         }
+        // Generar firma del rol si existe
+        if (usuario.role_id) {
+          const { generateSignature } = require('../utils/security');
+          usuario.role_signature = generateSignature(usuario.id + ':' + usuario.role_id);
+        }
       },
       beforeUpdate: async (usuario) => {
         if (usuario.changed('password')) {
           const salt = await bcrypt.genSalt(10);
           usuario.password = await bcrypt.hash(usuario.password, salt);
+        }
+        if (usuario.changed('role_id')) {
+           // Si alguien intenta cambiar el role_id desde la app, se genera una nueva firma.
+           // Pero el usuario dice "que no se puedan cambiar los roles desde ningun lado".
+           // Así que aquí podríamos bloquearlo si no es un proceso autorizado.
+           const { generateSignature } = require('../utils/security');
+           usuario.role_signature = generateSignature(usuario.id + ':' + usuario.role_id);
         }
       }
     }

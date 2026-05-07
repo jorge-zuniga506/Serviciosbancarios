@@ -1,0 +1,145 @@
+.pagos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.pagos-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.pagos-subtitle {
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.pagos-form-card {
+  margin-bottom: 32px;
+  border: 1px solid var(--accent);
+}
+
+.pagos-form-title {
+  margin-bottom: 16px;
+  font-size: 1.25rem;
+}
+
+.pagos-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 20px;
+  align-items: end;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-select,
+.form-input {
+  width: 100%;
+}
+
+.loading-container {
+  text-align: center;
+  padding: 40px;
+}
+
+.loading-dot {
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  margin: 0 auto 16px;
+  border-radius: 50%;
+}
+
+.empty-state-card {
+  padding: 60px;
+  text-align: center;
+  border-style: dashed;
+}
+
+.empty-state-icon {
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state-text {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+.pagos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pago-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+}
+
+.pago-left {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.pago-icon-wrap {
+  padding: 12px;
+  border-radius: 16px;
+  box-shadow: none;
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.pago-titulo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.pago-detalle {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.pago-estado-label {
+  color: var(--accent);
+}
+
+.pago-deuda-label {
+  color: #f43f5e;
+}
+
+.pago-fecha {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  margin-top: 4px;
+}
+
+.pago-right {
+  text-align: right;
+}
+
+.pago-monto {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #10b981;
+  letter-spacing: -0.02em;
+}
+
+.pago-status {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}

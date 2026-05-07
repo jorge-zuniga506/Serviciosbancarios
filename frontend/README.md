@@ -6,7 +6,7 @@ Frontend en React para el sistema de servicios bancarios.
 - React 19 + Vite
 - React Router DOM
 - Lucide React (iconos)
-- Axios
+- XMLHttpRequest (para peticiones HTTP)
 
 ## Scripts
 - `npm run dev`: Inicia servidor de desarrollo
